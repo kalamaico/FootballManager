@@ -3,13 +3,15 @@
 from resources.random_generator import *
 from resources.terrain import *
 import pdb
+from itertools import repeat
 
 class Match:
-    def __init__(self, team_a, team_b, rng, n_actions = 8):
+    def __init__(self, team_a, team_b, rng, terrain, n_actions = 8):
         self._team_a = team_a
         self._team_b = team_b
-        self.generator = rng
-        self._n_actions = n_actions
+        self._generator = rng
+        self._terrain = terrain
+        self._n_actions = n_actions  #per team
         
 	#def play(self):
 		# generate actions
@@ -23,28 +25,29 @@ class Match:
 		## resolve action
 		## if successful, go to new zone and repeat, until failure or goal 
         
-    def generate_actions(self, n_actions, generator):
-        actions_a = generate_team_action('a', self._n_actions, generator)
-        actions_a = generate_team_action('b', self._n_actions, generator)
+    def generate_actions(self):
+        actions_a = self.generate_team_action('a')
+        actions_a = self.generate_team_action('b')
         # merge list
         # sort by minutes
         
-    def generate_team_action(self, team, n_actions, generator):
-        zones = generate_starting_zones(n_actions, terrain, generator)
-        for i in zones:
-            actions = (team, i)
-        minutes = generate_minutes(n_actions, generator)
-        return zip(actions, minutes)
+    def generate_team_action(self, team):
+        zones = self.generate_starting_zones()
+        minutes = self.generate_minutes()
+        team = list(repeat(team, self._n_actions))
         
-    def generate_minutes(self, n_actions, generator):
-        return generator.generate_int_sequence_no_repetitions(n_actions, 1, 90)
+        return zip(minutes, zones, team)
+
         
-    def generate_starting_zones(self, n_actions, generator, terrain):
-        midfield_row = terrain.get_midfield_row()
-        width = terrain.get_width()
+    def generate_minutes(self):
+        return self._generator.generate_int_sequence_no_repetitions(self._n_actions, 1, 90)
+        
+    def generate_starting_zones(self):
+        midfield_row = self._terrain.get_midfield_row()
+        width = self._terrain.get_width()
         max_zone = (midfield_row +1) * width + width -1
         min_zone = (midfield_row -1) * width
-        return generator.generate_int_sequence_no_repetitions(n_actions, min_zone, max_zone)
+        return self._generator.generate_int_sequence(self._n_actions, min_zone, max_zone)
         
     
 

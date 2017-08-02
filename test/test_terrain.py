@@ -85,6 +85,10 @@ class TestTerrain(unittest.TestCase):
         self.assertEqual(self.terrain.get_defence_zone(0), 24)
         self.assertEqual(self.terrain.get_defence_zone(24), 0)
         self.assertEqual(self.terrain.get_defence_zone(9), 15)
+        
+    def test_get_max_zone(self):
+        self.assertEqual(self.terrain.get_max_zone(), 24)
+        self.assertEqual(self.terrain2.get_max_zone(), 29)
 
 if __name__ == '__main__':
     unittest.main()

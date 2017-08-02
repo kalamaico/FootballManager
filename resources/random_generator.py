@@ -22,8 +22,16 @@ class RandomGenerator:
 
         return sorted(ret)
         
+    
+    def generate_int_sequence(self, length, min_v, max_v):
+        ret = list()
         
-        
+        while len(ret) < length:
+            ret.append(self.generate_int(min_v, max_v))
+            
+        return ret
+
+
 class RandomGeneratorDeterministic(RandomGenerator):
     def __init__(self):
         random.seed(0)

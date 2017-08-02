@@ -24,9 +24,11 @@ class Terrain:
     def get_width(self):
         return self._width
         
-
     def get_heigth(self):
         return self._heigth
+    
+    def get_max_zone(self):
+         return self._width * self._heigth - 1
     
     def get_midfield_row(self):
         if self._top_row % 2 == 0:

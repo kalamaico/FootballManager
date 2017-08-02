@@ -11,11 +11,13 @@ class TestRandomGenerator(unittest.TestCase):
         self.assertTrue(val >= 1)
         self.assertTrue(val <= 10)
         
-    def test_generate_sequence(self):
+    def test_generate_int_sequence_no_repetitions(self):
         vals = self.rng.generate_int_sequence_no_repetitions(5, 1, 10)
         self.assertEqual(len(vals), 5)
         with self.assertRaises(ValueError):
 			self.rng.generate_int_sequence_no_repetitions(5, 1, 3)
 
-        
+    def test_generate_int_sequence(self):
+        vals = self.rng.generate_int_sequence(5, 1, 10)
+        self.assertEqual(len(vals), 5)
         
