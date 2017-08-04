@@ -25,8 +25,8 @@ class TestMatch(unittest.TestCase):
         vals = self.match.generate_starting_zones()
         self.assertEqual(len(vals), 5)
         for i in range(0,5):
-            self.assertTrue(vals[i] >= 5)
-            self.assertTrue(vals[i] <= 19)
+            self.assertTrue(vals[i] >= 0)
+            self.assertTrue(vals[i] <= 14)
             
             
     def test_generate_team_action(self):
@@ -36,6 +36,17 @@ class TestMatch(unittest.TestCase):
             self.assertTrue(vals[i][0] >= 1)
             self.assertTrue(vals[i][0] <= 90)
             self.assertTrue(vals[i][1] >= 0)
-            self.assertTrue(vals[i][1] <= self.terrain.get_max_zone)
+            self.assertTrue(vals[i][1] <= 14)
             self.assertTrue(vals[i][2] == 'a')
+            
+    def test_generate_actions(self):
+        vals = self.match.generate_actions()
+        self.assertEqual(len(vals), 10)
+        previous_minute = 0
+        for i in range(0,10):
+            self.assertTrue(vals[i][0] >= previous_minute)
+            previous_minute = vals[i][0]
+            self.assertTrue(vals[i][1] >= 0)
+            self.assertTrue(vals[i][1] <= 14)
+            self.assertTrue(vals[i][2] == 'a' or vals[i][2] == 'b')
         

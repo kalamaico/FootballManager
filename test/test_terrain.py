@@ -5,7 +5,7 @@ class TestTerrain(unittest.TestCase):
     
     def setUp(self):
         self.terrain = Terrain(5,5)
-        self.terrain2 = Terrain(5,6)
+        self.terrain2 = Terrain(5,7)
 
 	# distance computation
     def test_distance(self):
@@ -31,6 +31,80 @@ class TestTerrain(unittest.TestCase):
         self.assertTrue(self.terrain.in_sides(5))
         self.assertTrue(self.terrain.in_sides(19))
         self.assertFalse(self.terrain.in_sides(12))
+        
+    # location of defence
+    def test_in_defence(self):
+        self.assertTrue(self.terrain.in_defence(0))
+        self.assertTrue(self.terrain.in_defence(1))
+        self.assertTrue(self.terrain.in_defence(2))
+        self.assertTrue(self.terrain.in_defence(3))
+        self.assertTrue(self.terrain.in_defence(4))
+        self.assertFalse(self.terrain.in_defence(8))
+        
+    # location of defensive midfield
+    def test_in_defensive_midfield(self):
+        self.assertFalse(self.terrain.in_defensive_midfield(4))
+        self.assertTrue(self.terrain.in_defensive_midfield(5))
+        self.assertTrue(self.terrain.in_defensive_midfield(6))
+        self.assertTrue(self.terrain.in_defensive_midfield(7))
+        self.assertTrue(self.terrain.in_defensive_midfield(8))
+        self.assertTrue(self.terrain.in_defensive_midfield(9))
+        self.assertFalse(self.terrain.in_defensive_midfield(10))
+        
+        self.assertFalse(self.terrain2.in_defensive_midfield(4))
+        self.assertTrue(self.terrain2.in_defensive_midfield(5))
+        self.assertTrue(self.terrain2.in_defensive_midfield(6))
+        self.assertTrue(self.terrain2.in_defensive_midfield(7))
+        self.assertTrue(self.terrain2.in_defensive_midfield(8))
+        self.assertTrue(self.terrain2.in_defensive_midfield(9))
+        self.assertTrue(self.terrain2.in_defensive_midfield(10))
+        self.assertTrue(self.terrain2.in_defensive_midfield(11))
+        self.assertTrue(self.terrain2.in_defensive_midfield(12))
+        self.assertTrue(self.terrain2.in_defensive_midfield(13))
+        self.assertTrue(self.terrain2.in_defensive_midfield(14))
+        self.assertFalse(self.terrain2.in_defensive_midfield(15))
+        
+    # location of midfield
+    def test_in_midfield(self):
+        self.assertFalse(self.terrain.in_midfield(9))
+        self.assertTrue(self.terrain.in_midfield(10))
+        self.assertTrue(self.terrain.in_midfield(11))
+        self.assertTrue(self.terrain.in_midfield(12))
+        self.assertTrue(self.terrain.in_midfield(13))
+        self.assertTrue(self.terrain.in_midfield(14))
+        self.assertFalse(self.terrain.in_midfield(15))
+        
+    # location of attacking midfield
+    def test_in_attacking_midfield(self):
+        self.assertFalse(self.terrain.in_attacking_midfield(14))
+        self.assertTrue(self.terrain.in_attacking_midfield(15))
+        self.assertTrue(self.terrain.in_attacking_midfield(16))
+        self.assertTrue(self.terrain.in_attacking_midfield(17))
+        self.assertTrue(self.terrain.in_attacking_midfield(18))
+        self.assertTrue(self.terrain.in_attacking_midfield(19))
+        self.assertFalse(self.terrain.in_attacking_midfield(20))
+        
+        self.assertFalse(self.terrain2.in_attacking_midfield(19))
+        self.assertTrue(self.terrain2.in_attacking_midfield(20))
+        self.assertTrue(self.terrain2.in_attacking_midfield(21))
+        self.assertTrue(self.terrain2.in_attacking_midfield(22))
+        self.assertTrue(self.terrain2.in_attacking_midfield(23))
+        self.assertTrue(self.terrain2.in_attacking_midfield(24))
+        self.assertTrue(self.terrain2.in_attacking_midfield(25))
+        self.assertTrue(self.terrain2.in_attacking_midfield(26))
+        self.assertTrue(self.terrain2.in_attacking_midfield(27))
+        self.assertTrue(self.terrain2.in_attacking_midfield(28))
+        self.assertTrue(self.terrain2.in_attacking_midfield(29))
+        self.assertFalse(self.terrain2.in_attacking_midfield(30)) 
+    
+    # location of attack    
+    def test_in_attack(self):
+        self.assertFalse(self.terrain.in_attack(19))
+        self.assertTrue(self.terrain.in_attack(20))
+        self.assertTrue(self.terrain.in_attack(21))
+        self.assertTrue(self.terrain.in_attack(22))
+        self.assertTrue(self.terrain.in_attack(23))
+        self.assertTrue(self.terrain.in_attack(24))
 		
 	# support zones for corners
     def test_get_support_ahead_behind_corner(self):
@@ -88,7 +162,7 @@ class TestTerrain(unittest.TestCase):
         
     def test_get_max_zone(self):
         self.assertEqual(self.terrain.get_max_zone(), 24)
-        self.assertEqual(self.terrain2.get_max_zone(), 29)
+        self.assertEqual(self.terrain2.get_max_zone(), 34)
 
 if __name__ == '__main__':
     unittest.main()

@@ -19,6 +19,30 @@ class Terrain:
         ]
         
         self._sides = []
+        self._defence = []
+        self._defensive_midfield = []
+        self._midfield = []
+        self._attack_midfield = []
+        self._attack = []
+        
+        for i in range(0, self._width, 1):
+            self._defence.append(i)
+            
+        for i in range(self._width, self.get_midfield_row() * self._width, 1):  #from one past defence to midfield
+            self._defensive_midfield.append(i)            
+        
+        for i in range(self.get_midfield_row() * width, self.get_midfield_row() * self._width + self._width, 1):
+            self._midfield.append(i)
+            
+        for i in range((self.get_midfield_row() + 1) * self._width, self._top_row * self._width, 1):
+            self._attack_midfield.append(i)
+            
+        for i in range(self._top_row * self._width, self._top_row * self._width + self._width, 1):
+            self._attack.append(i)
+            
+        for i in range(0, self._heigth * self._width, self._width):
+            self._sides.append(i) #left
+            self._sides.append(i + self._right_col) #right            
     
 
     def get_width(self):
@@ -36,13 +60,22 @@ class Terrain:
         else:
             return self._top_row / 2 + 1
             
+    def in_defence(self, zone):
+        return zone in self._defence
+        
+    def in_defensive_midfield(self, zone):
+        return zone in self._defensive_midfield
+        
+    def in_midfield(self, zone):
+        return zone in self._midfield
+        
+    def in_attacking_midfield(self, zone):
+        return zone in self._attack_midfield
+        
+    def in_attack(self, zone):
+        return zone in self._attack
 
     def in_sides(self, zone):
-        if not self._sides:  # compute pitch sides if not already done
-            for i in range(0, self._heigth * self._width, self._width):
-                self._sides.append(i) #left
-                self._sides.append(i + self._right_col) #right
-        
         return zone in self._sides
     
     def distance(self, zone_a, zone_b):

@@ -15,8 +15,7 @@ class Match:
         
 	#def play(self):
 		# generate actions
-		## action: <team, starting zone>
-		## output: <minute, action>
+		## output: <minute, zone, team>
 		
 		# loop over actions
 		## pick attacking and defending players
@@ -25,11 +24,23 @@ class Match:
 		## resolve action
 		## if successful, go to new zone and repeat, until failure or goal 
         
+    #action is a tuple <minute, zone, team>
+    def get_action_minute(self, action):
+        return action[0]
+        
     def generate_actions(self):
+        # generate actions
         actions_a = self.generate_team_action('a')
-        actions_a = self.generate_team_action('b')
+        actions_b = self.generate_team_action('b')
+        
         # merge list
+        actions = actions_a + actions_b
+        
         # sort by minutes
+        a = sorted(actions, key=self.get_action_minute)
+        print a
+        return sorted(actions, key=self.get_action_minute)
+        
         
     def generate_team_action(self, team):
         zones = self.generate_starting_zones()
@@ -45,8 +56,8 @@ class Match:
     def generate_starting_zones(self):
         midfield_row = self._terrain.get_midfield_row()
         width = self._terrain.get_width()
-        max_zone = (midfield_row +1) * width + width -1
-        min_zone = (midfield_row -1) * width
+        max_zone = midfield_row * width + width -1
+        min_zone = 0
         return self._generator.generate_int_sequence(self._n_actions, min_zone, max_zone)
         
     
