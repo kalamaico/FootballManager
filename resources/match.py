@@ -24,6 +24,50 @@ class Match:
 		## resolve action
 		## if successful, go to new zone and repeat, until failure or goal 
         
+        
+    def process_action(self, action):
+        state = "construction"
+        attack_zone = action[1]
+        defence_zone = self._terrain.get_defence_zone(attack_zone)
+        if action[2] == 'a':
+            attacking_team = self._team_a
+            defending_team = self._team_b
+        else:
+            attacking_team = team_b
+            defending_team = self._team_a
+        
+        ## construction
+        
+        # select players
+        attacking_player = attacking_team.pick_closest_player(attack_zone)
+        defending_player = defending_team.pick_closest_player(defence_zone)
+        
+        # attacking player decides what to do
+        # decision depends onzone and on player skill (if skill needed for action is one of the top 3 of the player, with weigth)
+        
+        # compute support for both teams
+        # for now, just count how many players are in the support zone
+        # later, factor in their relevant skills
+        attacking_support= get_support(attack_zone, attacking_player, attacking_team)
+        attacking_support= get_support(defence_zone, defending_player, defending_team)
+        
+        # resolve action
+        
+        ## refining
+        
+        #* finalizing
+        
+    
+    def get_support(self, zone, player, team):
+        support_zones = self._terrain.get_support_area(zone)
+        support = 0
+        for i in support_zones:
+            if team.has_player_in_position(i) and team.get_player_in_position(i) != player:
+                support = support + 1
+                
+        return support
+        
+        
     #action is a tuple <minute, zone, team>
     def get_action_minute(self, action):
         return action[0]
@@ -37,8 +81,6 @@ class Match:
         actions = actions_a + actions_b
         
         # sort by minutes
-        a = sorted(actions, key=self.get_action_minute)
-        print a
         return sorted(actions, key=self.get_action_minute)
         
         
